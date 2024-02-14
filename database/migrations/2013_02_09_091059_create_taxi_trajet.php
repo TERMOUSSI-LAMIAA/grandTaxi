@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('evaluation', function (Blueprint $table) {
+        Schema::create('taxi_trajet', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('driver_id')->constrained('users');
-            $table->foreignId('passager_id')->constrained('users');
-            $table->integer('rate');
+            $table->foreignId('taxi_id')->constrained('taxis');
+            $table->foreignId('trajet_id')->constrained('trajets');
+            $table->time('hr_dep');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('evaluation');
+        Schema::dropIfExists('taxi_trajet');
     }
 };

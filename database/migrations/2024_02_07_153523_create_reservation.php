@@ -10,14 +10,16 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('reservation', function (Blueprint $table) {
+        Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('driver_id')->constrained('users');
-            $table->foreignId('passager_id')->constrained('users');
+            $table->foreignId('passenger_id')->constrained('users');
+            $table->foreignId('taxi_trajet_id')->constrained('taxi_trajet');
             $table->date('jour');
-            $table->decimal('prix');
+            $table->decimal('total_prix');
             $table->unsignedInteger('number_of_seats');
-            $table->boolean('is_hide')->default(0);
+            $table->unsignedInteger('rating');
+            $table->string('comment');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trajet', function (Blueprint $table) {
+        Schema::create('trajets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('depart_id')->constrained('ville');
-            $table->foreignId('destination_id')->constrained('ville');//couple unique
+            $table->foreignId('depart_id')->constrained('villes');
+            $table->foreignId('destination_id')->constrained('villes');
+            $table->time('duree');
             $table->timestamps();
+            $table->unique(['depart_id', 'destination_id']);
         });
     }
 

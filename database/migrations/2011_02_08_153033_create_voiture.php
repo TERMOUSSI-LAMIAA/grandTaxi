@@ -10,13 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('voiture', function (Blueprint $table) {
+        Schema::create('taxis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('trajet_id')->constrained('trajet');
-            $table->string('immatriculation');
+            $table->string('immatriculation')->unique();
             $table->string('type_vehicule');
-            $table->unsignedInteger('seats')->default(6);
-            $table->boolean('is_hide')->default(0);
+            $table->unsignedInteger('total_seats')->default(6);
+            $table->decimal('prix');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }
