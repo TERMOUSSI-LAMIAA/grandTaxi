@@ -12,7 +12,7 @@
 
     <h1>Trajets</h1>
 
-    <form method="POST" action="{{ route('dashboard_d') }}">
+    <form method="POST" action="{{ route('trajet') }}">
         @csrf
         <label for="first_trajet_select">Select Trajet:</label>
         <select id="first_trajet_select" name="first_trajet_select">
@@ -22,6 +22,10 @@
                 </option>
             @endforeach
         </select>
+        <label for="first_trajet_select">seat price:</label>
+        <input type="number" name="price" id="price" min=1>
+        <label for="first_trajet_select">heure depart:</label>
+        <input type="time" name="hr_dep" id="hr_dep">
         <button type="submit">OK</button>
     </form>
     @if (isset($selectedTrajet) && $selectedTrajet)

@@ -21,9 +21,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -33,4 +33,10 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-Route::post('/driver/dashboard_d', [TrajetController::class, 'get_trajets'])->name('dashboard_d');
+Route::get('/dashboard', [TrajetController::class, 'get_trajets'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+// Route::get('/driver/dashboard_d', [TrajetController::class, 'get_trajets'])->name('dashboard_d');
+// Route::post('/driver/dashboard_d', [TrajetController::class, 'get_trajets'])->name('trajet');
+Route::post('dashboard', [TrajetController::class, 'get_trajets'])->name('trajet');

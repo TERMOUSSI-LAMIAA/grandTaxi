@@ -25,6 +25,8 @@ class Taxi extends Model
     }
     public function trajets()
     {
-        return $this->belongsToMany(Trajet::class);
+        return $this->belongsToMany(Trajet::class, 'taxi_trajet')
+                    ->withPivot('hr_dep')
+                    ->withTimestamps();
     }
 }

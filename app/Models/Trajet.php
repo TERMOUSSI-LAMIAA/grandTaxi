@@ -11,9 +11,10 @@ class Trajet extends Model
     protected $fillable = ['depart_id', 'destination_id', 'duree'];
     public function taxis()
     {
-        return $this->belongsToMany(Taxi::class);
+        return $this->belongsToMany(Taxi::class, 'taxi_trajet')
+            ->withPivot('hr_dep')
+            ->withTimestamps();
     }
-    
     public function departure()
     {
         return $this->belongsTo(Ville::class, 'depart_id');
@@ -23,4 +24,8 @@ class Trajet extends Model
     {
         return $this->belongsTo(Ville::class, 'destination_id');
     }
+    // public function reservations()
+    // {
+    //     return $this->hasManyThrough(Reservation::class, TaxiTrajet::class);
+    // }
 }

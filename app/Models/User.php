@@ -19,25 +19,19 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-    //     'photo_profil',
-    //     'tel',
-    //     'description',
-    //     'type_paiement',
-    //     'type_user',
-    //     'statut',
-
-    // ];
     protected $fillable = [
         'name',
         'email',
         'password',
+        'photo_profil',
+        'tel',
+        'description',
+        'type_paiement',
         'type_user',
+        'statut',
 
     ];
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -60,5 +54,9 @@ class User extends Authenticatable
     public function taxi()
     {
         return $this->hasOne(Taxi::class);
+    }
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'passenger_id');
     }
 }

@@ -41,33 +41,36 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['required', 'string', 'in:passenger,driver'],
-            // 'photo' => ['image', 'max:1024'],
+            'photo' => ['image', 'max:1024'],
             'description' => ['string', 'nullable'],
-            // 'paiement' => ['required_if:role,driver', 'string', 'in:especes,carte'],
+            'paiement' => ['required_if:role,driver', 'string', 'in:especes,carte'],
             // 'immatriculation' => ['required_if:role,driver', 'string', 'max:255'],
             // 'type_vehicule' => ['required_if:role,driver', 'string', 'max:255'],
             // 'total_seats' => ['required_if:role,driver', 'integer', 'between:1,7'],
-            // 'tel' => ['required_if:role,passenger', 'string', 'max:255'],
+            'tel' => ['required_if:role,passenger', 'string', 'max:255'],
         ]);
 
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
- 
-        // ]);
+
+
         $userData = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'type_user' => $request->role,
         ];
-        
-        if ($request->has('description')) {
-            $userData['description'] = $request->description;
+        if ($request->hasFile('photo')) {
+            $filePath = $request->file('photo')->store('imgs', 'public');
+            $userData['photo_profil'] = $filePath;
         }
-        
+        if ($request->role === 'passenger') {
+            $userData['tel'] = $request->tel;
+        } elseif ($request->role === 'driver') {
+            $userData['description'] = $request->description;
+            $userData['type_paiement'] = $request->paiement;
+        }
+
         $user = User::create($userData);
-        
+
         if ($request->role === 'driver') {
             $role = 'driver';
             $permissionNom = 'driverPermission';
@@ -86,31 +89,38 @@ class RegisteredUserController extends Controller
             $permission = Permission::create(['name' => $permissionNom]);
         }
         $userRole->givePermissionTo($permission);
-        // Additional fields for the driver
+        // $user = User::create([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+
+        // ]);
+
+        // --------
         // if ($request->role === 'driver') {
-            //  Create and associate taxi with user
-            // $taxi = Taxi::create([
-            //     'immatriculation' => $request->input('immatriculation'),
-            //     'type_vehicule' => $request->input('type_vehicule'),
-            //     'total_seats' => $request->input('total_seats'),
-            //     'user_id' => $user->id,
-            // ]);
-            // Associate taxi with user
-            // $user->taxi()->save($taxi);
+        //  Create and associate taxi with user
+        // $taxi = Taxi::create([
+        //     'immatriculation' => $request->input('immatriculation'),
+        //     'type_vehicule' => $request->input('type_vehicule'),
+        //     'total_seats' => $request->input('total_seats'),
+        //     'user_id' => $user->id,
+        // ]);
+        // Associate taxi with user
+        // $user->taxi()->save($taxi);
 
-            // $user->update([
-            //     'description' => $request->description,
-            // 'type_paiement' => $request->paiement,
-            // 'immatriculation' => $request->immatriculation,
-            // 'type_vehicule' => $request->type_vehicule,
-            // 'total_seats' => $request->total_seats,
-            // ]);
+        // $user->update([
+        //     'description' => $request->description,
+        // 'type_paiement' => $request->paiement,
+        // 'immatriculation' => $request->immatriculation,
+        // 'type_vehicule' => $request->type_vehicule,
+        // 'total_seats' => $request->total_seats,
+        // ]);
 
-            // Handle photo upload
-            // if ($request->hasFile('photo')) {
-            //     $photoPath = $request->file('photo')->store('photos', 'public');
-            //     $user->update(['photo_profil' => $photoPath]);
-            // }
+        // Handle photo upload
+        // if ($request->hasFile('photo')) {
+        //     $photoPath = $request->file('photo')->store('photos', 'public');
+        //     $user->update(['photo_profil' => $photoPath]);
+        // }
         // }
 
         // Additional fields for the passenger
