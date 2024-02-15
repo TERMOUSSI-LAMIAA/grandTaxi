@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 
 use App\Http\Controllers\TrajetController;
+use App\Http\Controllers\VilleController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,4 +42,6 @@ Route::get('/dashboard', [TrajetController::class, 'get_trajets'])
 
 // Route::get('/driver/dashboard_d', [TrajetController::class, 'get_trajets'])->name('dashboard_d');
 // Route::post('/driver/dashboard_d', [TrajetController::class, 'get_trajets'])->name('trajet');
-Route::post('dashboard', [TrajetController::class, 'get_trajets'])->name('trajet');
+// --
+Route::get('dashboard', [VilleController::class, 'get_villes'])->name('passengerHome');
+Route::get('/search', [TrajetController::class, 'searchTaxiTrajet'])->name('search');

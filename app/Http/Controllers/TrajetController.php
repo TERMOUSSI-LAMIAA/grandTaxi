@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Taxi;
 use App\Models\TaxiTrajet;
 
+
 class TrajetController extends Controller
 {
     public function get_trajets(Request $request)
@@ -55,46 +56,25 @@ class TrajetController extends Controller
             $taxiTrajet->hr_dep = $request->hr_dep;
             $taxiTrajet->save();
 
-            // $taxiTrajet = TaxiTrajet::create([
-            //     'taxi_id' => $taxi->id,
-            //     'trajet_id' => $trajet->id,
-            //     'hr_dep' => $request->hr_dep,
-            // ]);
+            //todo reverse trajet add
 
             // return view('driver.dashboard_d', compact('trajets', 'selectedTrajet', 'reversedTrajet'));
-             return view('dashboard', compact('trajets', 'selectedTrajet', 'reversedTrajet'));
+            return view('dashboard', compact('trajets', 'selectedTrajet', 'reversedTrajet'));
         }
 
         return view('dashboard', compact('trajets'));
     }
-    public function updateTaxiPriceAndAddTrajetRecord(Request $request)
+    public function searchTaxiTrajet(Request $request)
     {
-        $taxi = Taxi::where('user_id', Auth::id())->first();
+        $departCity = $request->input('vil_dep');
+        $arriveeCity = $request->input('vil_arv');
 
-        if (!$taxi) {
-            $taxi = new Taxi();
-            $taxi->user_id = Auth::id();
-        }
 
-        $taxi->price = $request->price;
-        $taxi->save();
-
-        $trajet = Trajet::where('depart_id', $request->depart_id)
-            ->where('destination_id', $request->destination_id)
-            ->first();
-
-        if (!$trajet) {
-            return redirect()->back()->with('error', 'Invalid departure or destination.');
-        }
-
-        $taxiTrajet = new TaxiTrajet();
-        $taxiTrajet->taxi_id = $taxi->id;
-        $taxiTrajet->trajet_id = $trajet->id;
-        $taxiTrajet->hr_dep = $request->hr_dep;
-        $taxiTrajet->save();
-
-        return redirect()->back()->with('success', 'Taxi price updated and trajet record added.');
+        $results = TaxiTrajet::whereHas('trajet', function ($query) use ($departCity, $arriveeCity) {
+            $query->where('depart_id', $departCity)
+                  ->where('destination_id', $arriveeCity);
+        })->get();
+        return view('passenger.trajets', compact('results'));
     }
-
 
 }
