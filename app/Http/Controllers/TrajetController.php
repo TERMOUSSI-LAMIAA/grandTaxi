@@ -11,7 +11,12 @@ use App\Models\TaxiTrajet;
 
 class TrajetController extends Controller
 {
-    public function get_trajets(Request $request)
+    public function get_trajets(){
+        $trajets = Trajet::all();
+        
+        return view('driver.dashboard_d', compact('trajets'));
+    }
+    public function addUserTrajets(Request $request)
     {
         $userId = Auth::id();
         // dd($userId);
@@ -59,7 +64,7 @@ class TrajetController extends Controller
             //todo reverse trajet add
 
             // return view('driver.dashboard_d', compact('trajets', 'selectedTrajet', 'reversedTrajet'));
-            return view('dashboard', compact('trajets', 'selectedTrajet', 'reversedTrajet'));
+            return view('driver.dashboard_d', compact('trajets', 'selectedTrajet', 'reversedTrajet'));
         }
 
         return view('dashboard', compact('trajets'));

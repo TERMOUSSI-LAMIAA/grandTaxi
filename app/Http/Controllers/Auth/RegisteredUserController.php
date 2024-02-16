@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
             // 'immatriculation' => ['required_if:role,driver', 'string', 'max:255'],
             // 'type_vehicule' => ['required_if:role,driver', 'string', 'max:255'],
             // 'total_seats' => ['required_if:role,driver', 'integer', 'between:1,7'],
-            'tel' => ['required_if:role,passenger', 'string', 'max:255'],
+            'tel' => ['required_if:role,passenger', 'nullable', 'string', 'max:255'],
         ]);
 
 
@@ -138,7 +138,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        // if($user->type == 'drvr')
+        return redirect(route('dashboard_d'));
+
+        // return redirect(route('dashboard_p'));
 
     }
 }

@@ -12,7 +12,7 @@
 
     <h1>Trajets</h1>
 
-    <form method="POST" action="{{ route('trajet') }}">
+    <form method="POST" action="">
         @csrf
         <label for="first_trajet_select">Select Trajet:</label>
         <select id="first_trajet_select" name="first_trajet_select">

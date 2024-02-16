@@ -28,8 +28,19 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $userType = Auth::user()->type_user;
+        $isAdmin = Auth::user()->is_admin;
+        // return redirect()->intended(RouteServiceProvider::HOME);
+        if ($userType==="passenger" && $isAdmin===0){
+            return redirect(route('dashboard_p'));
+        }elseif ($userType==="driver" && $isAdmin===0){
+            return redirect(route('dashboard_d'));
+        }elseif ($isAdmin===1){
+            return redirect(route('dashboard_a'));
+        }else{
+            abort(403, 'Invalid user type');
+        }
+  
     }
 
     /**

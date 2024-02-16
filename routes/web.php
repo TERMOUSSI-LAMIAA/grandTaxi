@@ -34,14 +34,27 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/dashboard_d', [TrajetController::class, 'get_trajets'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard_d');
+
+Route::get('/dashboard_p', [VilleController::class, 'get_villes'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard_p');
+
+Route::get('/dashboard_a', [VilleController::class, 'testadmin'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard_a');
+
 require __DIR__ . '/auth.php';
 
-Route::get('/dashboard', [TrajetController::class, 'get_trajets'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Route::get('/dashboard_d', [TrajetController::class, 'get_trajets'])
+//     ->middleware(['auth', 'verified'])
+//     ->name('gettrajet');
 
+
+// Route::get('/dashboard', [VilleController::class, 'get_villes'])->name('passengerHome');
+// Route::get('/search', [TrajetController::class, 'searchTaxiTrajet'])->name('search');
 // Route::get('/driver/dashboard_d', [TrajetController::class, 'get_trajets'])->name('dashboard_d');
-// Route::post('/driver/dashboard_d', [TrajetController::class, 'get_trajets'])->name('trajet');
+// Route::post('dashboard_d', [TrajetController::class, 'get_trajets'])->name('trajet');
 // --
-Route::get('dashboard', [VilleController::class, 'get_villes'])->name('passengerHome');
-Route::get('/search', [TrajetController::class, 'searchTaxiTrajet'])->name('search');

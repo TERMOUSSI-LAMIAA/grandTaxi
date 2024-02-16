@@ -24,7 +24,7 @@
                     Arrival City: {{ $result->trajet->destination->ville }},
                     Departure Time: {{ $result->hr_dep }},
                     User: {{ $result->taxi->user->name }}
-                    <form action="{{ route('reserve') }}" method="post">
+                    <form action="" method="post">
                         @csrf
                         <input type="hidden" name="taxi_trajet_id" value="{{ $result->id }}">
                         <button type="submit">Reserve</button>
