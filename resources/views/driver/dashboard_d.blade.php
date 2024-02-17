@@ -12,7 +12,7 @@
 
     <h1>Trajets</h1>
 
-    <form method="POST" action="">
+    <form method="POST" action="{{route("addUserTrajets")}}">
         @csrf
         <label for="first_trajet_select">Select Trajet:</label>
         <select id="first_trajet_select" name="first_trajet_select">
@@ -24,7 +24,7 @@
         </select>
         <label for="first_trajet_select">seat price:</label>
         <input type="number" name="price" id="price" min=1>
-        <label for="first_trajet_select">heure depart:</label>
+        <label for="first_trajet_select">heure depart :</label>
         <input type="time" name="hr_dep" id="hr_dep">
         <button type="submit">OK</button>
     </form>

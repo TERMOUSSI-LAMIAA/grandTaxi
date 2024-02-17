@@ -11,7 +11,7 @@
 <body>
     <h1>Search your road</h1>
 
-    <form action="" method="GET">
+    <form action="{{route("search")}}" method="GET">
         @csrf
 
         <label for="ville_depart">Ville Depart:</label>

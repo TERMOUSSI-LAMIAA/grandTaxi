@@ -9,7 +9,11 @@
 </head>
 
 <body>
-
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <h1>Search Results</h1>
 
     @if ($results->isEmpty())
@@ -24,15 +28,40 @@
                     Arrival City: {{ $result->trajet->destination->ville }},
                     Departure Time: {{ $result->hr_dep }},
                     User: {{ $result->taxi->user->name }}
-                    <form action="" method="post">
+                    <button onclick="toggleAdditionalInputs({{ $result->id }})">Reserve</button>
+
+                    <!-- Form with hidden additional inputs -->
+                    <form id="reservationForm" action="{{ route('reserve', ['taxiTrajetId' => $result->id]) }}"
+                        method="post">
                         @csrf
-                        <input type="hidden" name="taxi_trajet_id" value="{{ $result->id }}">
-                        <button type="submit">Reserve</button>
+                        <div id="additionalInputs{{ $result->id }}" style="display: none;">
+                            <label for="jour">Jour:</label>
+                            <input type="date" name="jour" id="jour{{ $result->id }}" required>
+
+                            <label for="number_of_seats">Number of Seats:</label>
+                            <input type="number" name="number_of_seats" min=1 max=8
+                                id="number_of_seats{{ $result->id }}" required>
+                            <button type="submit">Confirm</button>
+                        </div>
+
                     </form>
                 </li>
             @endforeach
         </ul>
     @endif
+
+
+    <script>
+        function toggleAdditionalInputs(resultId) {
+            var additionalInputs = document.getElementById('additionalInputs' + resultId);
+            additionalInputs.style.display = additionalInputs.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+
+
+
+
+
 
 </body>
 

@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TrajetController;
 use App\Http\Controllers\VilleController;
+use App\Http\Controllers\TaxiTrajetController;
+use App\Http\Controllers\ReservationsController;
 
 
 
@@ -46,6 +48,11 @@ Route::get('/dashboard_a', [VilleController::class, 'testadmin'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard_a');
 
+Route::post('dashboard_d', [TrajetController::class, 'addUserTrajets'])->name('addUserTrajets');
+Route::get('/search', [TaxiTrajetController::class, 'searchTaxiTrajet'])->name('search');
+Route::post('/reserve/{taxiTrajetId}', [ReservationsController::class, 'reserve'])->name('reserve');
+
+
 require __DIR__ . '/auth.php';
 
 // Route::get('/dashboard_d', [TrajetController::class, 'get_trajets'])
@@ -54,7 +61,7 @@ require __DIR__ . '/auth.php';
 
 
 // Route::get('/dashboard', [VilleController::class, 'get_villes'])->name('passengerHome');
-// Route::get('/search', [TrajetController::class, 'searchTaxiTrajet'])->name('search');
+
 // Route::get('/driver/dashboard_d', [TrajetController::class, 'get_trajets'])->name('dashboard_d');
 // Route::post('dashboard_d', [TrajetController::class, 'get_trajets'])->name('trajet');
 // --
