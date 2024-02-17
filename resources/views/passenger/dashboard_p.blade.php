@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <a href="{{route('mesReservations')}}">mes reservations</a>
     <h1>Search your road</h1>
 
     <form action="{{route("search")}}" method="GET">

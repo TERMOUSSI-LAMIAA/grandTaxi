@@ -50,6 +50,7 @@ Route::get('/dashboard_a', [VilleController::class, 'testadmin'])
 
 Route::post('dashboard_d', [TrajetController::class, 'addUserTrajets'])->name('addUserTrajets');
 Route::get('/search', [TaxiTrajetController::class, 'searchTaxiTrajet'])->name('search');
+Route::get('/reservations', [ReservationsController::class, 'getReservations'])->name('mesReservations');
 Route::post('/reserve/{taxiTrajetId}', [ReservationsController::class, 'reserve'])->name('reserve');
 
 

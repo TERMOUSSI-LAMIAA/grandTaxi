@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TaxiTrajet;
 use App\Models\Reservation;
+use Carbon\Carbon;
 
 class ReservationsController extends Controller
 {
@@ -34,5 +35,28 @@ class ReservationsController extends Controller
         ]);
         return redirect()->route('search')->with('success', 'Reservation added successfully!');
     }
+    public function getReservations()
+    {
+        $currentDate = Carbon::now()->toDateString();
+
+        // $newReservations = Reservation::with(['passenger', 'taxiTrajet.trajet', 'taxiTrajet.taxi'])
+        //     ->where('jour', '>=', $currentDate)
+        //     ->whereRaw("TIMESTAMP(CONCAT(jour, ' ', taxi_trajet.hr_dep)) + INTERVAL TIME_TO_SEC(trajets.duree) SECOND >= NOW()")
+        //     ->get();
+
+        $newReservations = Reservation::with(['passenger', 'taxiTrajet.trajet', 'taxiTrajet.taxi'])
+            ->join('taxi_trajet', 'reservations.taxi_trajet_id', '=', 'taxi_trajet.id')
+            ->join('trajets', 'taxi_trajet.trajet_id', '=', 'trajets.id')
+            ->where('jour', '>=', $currentDate)
+            ->whereRaw("TIMESTAMP(CONCAT(jour, ' ', taxi_trajet.hr_dep)) + INTERVAL TIME_TO_SEC(trajets.duree) SECOND >= NOW()")
+            ->get();
+
+        $oldReservations = Reservation::with(['passenger', 'taxiTrajet.trajet', 'taxiTrajet.taxi'])
+            ->join('taxi_trajet', 'reservations.taxi_trajet_id', '=', 'taxi_trajet.id')
+            ->join('trajets', 'taxi_trajet.trajet_id', '=', 'trajets.id')
+            ->where('jour', '<=', $currentDate)
+            ->whereRaw("TIMESTAMP(CONCAT(jour, ' ', taxi_trajet.hr_dep)) + INTERVAL TIME_TO_SEC(trajets.duree) SECOND < NOW()")
+            ->get();
+        return view('passenger.reservations', compact('newReservations', 'oldReservations'));
+    }
 }
-// $totalPrice = $taxiTrajet->taxi->prix * $request->number_of_seats;
