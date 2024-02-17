@@ -48,8 +48,21 @@
                 Jour: {{ $or->jour }},
                 Total Prix: {{ $or->total_prix }},
                 Number of Seats: {{ $or->number_of_seats }},
-                Rating: {{ $or->rating ?? 'N/A' }},
-                Comment: {{ $or->comment ?? 'N/A' }}
+                Rating: {{ $or->rating }},
+                Comment: {{ $or->comment }}
+                @if ($or->rating === null || $or->comment === null || $or->comment === '')
+                    <form action="{{ route('evaluate', ['reservationId' => $or->id]) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <label for="rating">Rating /5:</label>
+                        <input type="number" name="rating" id="rating" min="1" max="5" required>
+
+                        <label for="comment">Comment:</label>
+                        <textarea name="comment" id="comment" rows="4" required></textarea>
+
+                        <button type="submit">Evaluate</button>
+                    </form>
+                @endif
             </li>
         @empty
             <p>No old reservations found.</p>

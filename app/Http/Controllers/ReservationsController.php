@@ -76,4 +76,24 @@ class ReservationsController extends Controller
         $reservation->delete();
         return redirect()->back()->with('success', 'Reservation canceled successfully.');
     }
+    public function evaluate(Request $request, $reservationId)
+    {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string',
+        ]);
+
+        $reservation = Reservation::findOrFail($reservationId);
+
+        if ($reservation->rating === null && ($reservation->comment === null || $reservation->comment === '')) {
+            $reservation->update([
+                'rating' => $request->rating,
+                'comment' => $request->comment,
+            ]);
+
+            return redirect()->route('mesReservations')->with('success', 'Reservation evaluated successfully');
+        } else {
+            return redirect()->route('mesReservations')->with('error', 'Reservation has already been evaluated');
+        }
+    }
 }
