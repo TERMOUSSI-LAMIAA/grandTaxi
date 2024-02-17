@@ -52,6 +52,7 @@ Route::post('dashboard_d', [TrajetController::class, 'addUserTrajets'])->name('a
 Route::get('/search', [TaxiTrajetController::class, 'searchTaxiTrajet'])->name('search');
 Route::get('/reservations', [ReservationsController::class, 'getReservations'])->name('mesReservations');
 Route::post('/reserve/{taxiTrajetId}', [ReservationsController::class, 'reserve'])->name('reserve');
+Route::delete('/cancel/{reservationId}', [ReservationsController::class, 'cancelReservation'])->name('cancelReservation');
 
 
 require __DIR__ . '/auth.php';

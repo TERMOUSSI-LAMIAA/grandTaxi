@@ -43,20 +43,37 @@ class ReservationsController extends Controller
         //     ->where('jour', '>=', $currentDate)
         //     ->whereRaw("TIMESTAMP(CONCAT(jour, ' ', taxi_trajet.hr_dep)) + INTERVAL TIME_TO_SEC(trajets.duree) SECOND >= NOW()")
         //     ->get();
-
+        // dd($newReservations);
+        // $newReservations = Reservation::with(['passenger', 'taxiTrajet.trajet', 'taxiTrajet.taxi'])
+        //     ->join('taxi_trajet', 'reservations.taxi_trajet_id', '=', 'taxi_trajet.id')
+        //     ->join('trajets', 'taxi_trajet.trajet_id', '=', 'trajets.id')
+        //     ->where('reservations.jour', '>=', $currentDate)
+        //     ->whereRaw("TIMESTAMP(CONCAT(reservations.jour, ' ', taxi_trajet.hr_dep)) + INTERVAL TIME_TO_SEC(trajets.duree) SECOND >= NOW()")
+        //     ->get();
         $newReservations = Reservation::with(['passenger', 'taxiTrajet.trajet', 'taxiTrajet.taxi'])
+            ->select('reservations.*')//*reservation id confused
             ->join('taxi_trajet', 'reservations.taxi_trajet_id', '=', 'taxi_trajet.id')
             ->join('trajets', 'taxi_trajet.trajet_id', '=', 'trajets.id')
-            ->where('jour', '>=', $currentDate)
-            ->whereRaw("TIMESTAMP(CONCAT(jour, ' ', taxi_trajet.hr_dep)) + INTERVAL TIME_TO_SEC(trajets.duree) SECOND >= NOW()")
+            ->where('reservations.jour', '>=', $currentDate)
+            ->whereRaw("TIMESTAMP(CONCAT(reservations.jour, ' ', taxi_trajet.hr_dep)) + INTERVAL TIME_TO_SEC(trajets.duree) SECOND >= NOW()")
+            ->distinct() //* distinct->reservation id confused
             ->get();
 
         $oldReservations = Reservation::with(['passenger', 'taxiTrajet.trajet', 'taxiTrajet.taxi'])
+            ->select('reservations.*') // Select only columns from reservations table
             ->join('taxi_trajet', 'reservations.taxi_trajet_id', '=', 'taxi_trajet.id')
             ->join('trajets', 'taxi_trajet.trajet_id', '=', 'trajets.id')
-            ->where('jour', '<=', $currentDate)
-            ->whereRaw("TIMESTAMP(CONCAT(jour, ' ', taxi_trajet.hr_dep)) + INTERVAL TIME_TO_SEC(trajets.duree) SECOND < NOW()")
+            ->where('reservations.jour', '<=', $currentDate)
+            ->whereRaw("TIMESTAMP(CONCAT(reservations.jour, ' ', taxi_trajet.hr_dep)) + INTERVAL TIME_TO_SEC(trajets.duree) SECOND < NOW()")
+            ->distinct() // Ensure distinct reservation records
             ->get();
+
         return view('passenger.reservations', compact('newReservations', 'oldReservations'));
+    }
+    public function cancelReservation($id)
+    {
+        $reservation = Reservation::find($id);
+        $reservation->delete();
+        return redirect()->back()->with('success', 'Reservation canceled successfully.');
     }
 }

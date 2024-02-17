@@ -22,7 +22,7 @@
         <ul>
             @foreach ($results as $result)
                 <li>
-                    Taxi ID: {{ $result->taxi_id }},
+                    Taxi prix: {{ $result->taxi->prix }},
                     Trajet ID: {{ $result->trajet_id }},
                     Departure City: {{ $result->trajet->departure->ville }},
                     Arrival City: {{ $result->trajet->destination->ville }},
