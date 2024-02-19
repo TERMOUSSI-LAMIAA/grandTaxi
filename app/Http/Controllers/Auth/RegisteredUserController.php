@@ -44,9 +44,9 @@ class RegisteredUserController extends Controller
             'photo' => ['image', 'max:1024'],
             'description' => ['string', 'nullable'],
             'paiement' => ['required_if:role,driver', 'string', 'in:especes,carte'],
-            // 'immatriculation' => ['required_if:role,driver', 'string', 'max:255'],
-            // 'type_vehicule' => ['required_if:role,driver', 'string', 'max:255'],
-            // 'total_seats' => ['required_if:role,driver', 'integer', 'between:1,7'],
+            'immatriculation' => ['required_if:role,driver', 'nullable', 'string', 'max:255'],
+            'type_vehicule' => ['required_if:role,driver', 'nullable', 'string', 'max:255'],
+            'total_seats' => ['required_if:role,driver', 'nullable', 'integer', 'between:1,7'],
             'tel' => ['required_if:role,passenger', 'nullable', 'string', 'max:255'],
         ]);
 
@@ -73,22 +73,30 @@ class RegisteredUserController extends Controller
 
         if ($request->role === 'driver') {
             $role = 'driver';
-            $permissionNom = 'driverPermission';
+            // $permissionNom = 'driverPermission';
 
         } else {
             $role = 'passenger';
-            $permissionNom = 'passengerPermission';
+            // $permissionNom = 'passengerPermission';
         }
 
         $userRole = Role::firstOrCreate(['name' => $role]);
         $user->assignRole($userRole);
 
-        $permission = Permission::where('name', $permissionNom)->first();
+        // $permission = Permission::where('name', $permissionNom)->first();
 
-        if (!$permission) {
-            $permission = Permission::create(['name' => $permissionNom]);
-        }
-        $userRole->givePermissionTo($permission);
+        // if (!$permission) {
+        //     $permission = Permission::create(['name' => $permissionNom]);
+        // }
+        // $userRole->givePermissionTo($permission);
+
+        $taxi = Taxi::create([
+            'immatriculation' => $request->immatriculation,
+            'type_vehicule' => $request->type_vehicule,
+            'total_seats' => $request->total_seats,
+            'prix'=>0,
+            'user_id' => $user->id
+        ]);
         // $user = User::create([
         //     'name' => $request->name,
         //     'email' => $request->email,

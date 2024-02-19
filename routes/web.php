@@ -8,6 +8,7 @@ use App\Http\Controllers\TrajetController;
 use App\Http\Controllers\VilleController;
 use App\Http\Controllers\TaxiTrajetController;
 use App\Http\Controllers\ReservationsController;
+use App\Http\Controllers\UserController;
 
 
 
@@ -54,7 +55,9 @@ Route::get('/reservations', [ReservationsController::class, 'getReservations'])-
 Route::post('/reserve/{taxiTrajetId}', [ReservationsController::class, 'reserve'])->name('reserve');
 Route::put('/evaluate/{reservationId}', [ReservationsController::class, 'evaluate'])->name('evaluate');
 Route::delete('/cancel/{reservationId}', [ReservationsController::class, 'cancelReservation'])->name('cancelReservation');
-
+Route::get('/gestPassenger', [UserController::class, 'getPassengers'])->name('gestPassenger');
+Route::get('/gestDriver', [UserController::class, 'getDrivers'])->name('gestDriver');
+Route::get('/gestReservations', [ReservationsController::class, 'getReservationsAdmin'])->name('gestReservations');
 
 require __DIR__ . '/auth.php';
 

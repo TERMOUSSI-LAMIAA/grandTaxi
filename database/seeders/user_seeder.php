@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+
 class user_seeder extends Seeder
 {
     /**
@@ -15,7 +16,7 @@ class user_seeder extends Seeder
      */
     public function run(): void
     {
-         $admin = User::create([
+        $admin = User::create([
             'name' => 'Lamiaa',
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
@@ -25,8 +26,8 @@ class user_seeder extends Seeder
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $admin->assignRole($adminRole);
 
-        $adminPermission = Permission::firstOrCreate(['name' => 'adminPermission']);
-        $adminRole->givePermissionTo($adminPermission);
+        // $adminPermission = Permission::firstOrCreate(['name' => 'adminPermission']);
+        // $adminRole->givePermissionTo($adminPermission);
     }
-    
+
 }
