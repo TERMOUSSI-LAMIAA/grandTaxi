@@ -17,8 +17,8 @@ return new class extends Migration {
             $table->date('jour');
             $table->decimal('total_prix');
             $table->unsignedInteger('number_of_seats');
-            $table->unsignedInteger('rating');
-            $table->string('comment');
+            $table->unsignedInteger('rating')->nullable();
+            $table->string('comment')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

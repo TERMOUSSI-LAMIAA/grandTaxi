@@ -35,7 +35,7 @@ class ReservationsController extends Controller
         ]);
         return redirect()->route('search')->with('success', 'Reservation added successfully!');
     }
-    public function getReservations()
+    public function getReservation()
     {
         $currentDate = Carbon::now()->toDateString();
 
@@ -68,6 +68,17 @@ class ReservationsController extends Controller
             ->distinct() // Ensure distinct reservation records
             ->get();
 
+            return [
+                'newReservations' => $newReservations,
+                'oldReservations' => $oldReservations,
+            ];
+    }
+    public function getReservations(){
+        $reservationsData = $this->getReservation();
+
+        $newReservations = $reservationsData['newReservations'];
+        $oldReservations = $reservationsData['oldReservations'];
+    
         return view('passenger.reservations', compact('newReservations', 'oldReservations'));
     }
     public function cancelReservation($id)

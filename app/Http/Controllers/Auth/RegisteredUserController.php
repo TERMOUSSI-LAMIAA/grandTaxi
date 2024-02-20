@@ -72,6 +72,14 @@ class RegisteredUserController extends Controller
         $user = User::create($userData);
 
         if ($request->role === 'driver') {
+            $taxi = Taxi::create([
+                'immatriculation' => $request->immatriculation,
+                'type_vehicule' => $request->type_vehicule,
+                'total_seats' => $request->total_seats,
+                'prix'=>0,
+                'user_id' => $user->id
+            ]);
+            
             $role = 'driver';
             // $permissionNom = 'driverPermission';
 
@@ -90,13 +98,7 @@ class RegisteredUserController extends Controller
         // }
         // $userRole->givePermissionTo($permission);
 
-        $taxi = Taxi::create([
-            'immatriculation' => $request->immatriculation,
-            'type_vehicule' => $request->type_vehicule,
-            'total_seats' => $request->total_seats,
-            'prix'=>0,
-            'user_id' => $user->id
-        ]);
+    
         // $user = User::create([
         //     'name' => $request->name,
         //     'email' => $request->email,

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('depart_id')->constrained('villes');
             $table->foreignId('destination_id')->constrained('villes');
             $table->time('duree');
+            $table->softDeletes();
             $table->timestamps();
             $table->unique(['depart_id', 'destination_id']);
         });

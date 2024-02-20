@@ -28,6 +28,7 @@
                     Arrival City: {{ $result->trajet->destination->ville }},
                     Departure Time: {{ $result->hr_dep }},
                     User: {{ $result->taxi->user->name }}
+                    {{ $result->taxi->user->photo_profil }}
                     <button onclick="toggleAdditionalInputs({{ $result->id }})">Reserve</button>
 
                     <!-- Form with hidden additional inputs -->

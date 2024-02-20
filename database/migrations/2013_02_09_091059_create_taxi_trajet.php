@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('taxi_id')->constrained('taxis');
             $table->foreignId('trajet_id')->constrained('trajets');
             $table->time('hr_dep');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

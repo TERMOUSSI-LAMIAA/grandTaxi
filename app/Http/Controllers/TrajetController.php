@@ -18,7 +18,7 @@ class TrajetController extends Controller
         return view('driver.dashboard_d', compact('trajets'));
     }
     public function addUserTrajets(Request $request)
-    {
+    {//!check if driver has already two taxi_trajet then update them
         $userId = Auth::id();
         $trajets = Trajet::all();
 
@@ -50,19 +50,20 @@ class TrajetController extends Controller
         $taxiTrajet->save();
         // add 2nd taxi road
 
+        $taxiTrajet2 = new TaxiTrajet();
+        $taxiTrajet2->taxi_id = $taxi->id;
 
         if (!$existingReversedTrajet) {
             $reversedTrajet->save();
-
+            $taxiTrajet2->trajet_id = $reversedTrajet->id;
         }
-        // dd([$existingReversedTrajet->id,$selectedTrajetId]);
+        else{
+            $taxiTrajet2->trajet_id = $existingReversedTrajet->id;
+        }
         list($hours, $minutes) = explode(':', $selectedTrajet->duree);
         $totalMinutesToAdd = ($hours * 60) + $minutes + (3 * 60); //add 3 hours
         $newHrDep = Carbon::parse($hr_dep)->addMinutes($totalMinutesToAdd)->format('H:i');
 
-        $taxiTrajet2 = new TaxiTrajet();
-        $taxiTrajet2->taxi_id = $taxi->id;
-        $taxiTrajet2->trajet_id = $existingReversedTrajet->id;
         $taxiTrajet2->hr_dep =$newHrDep;
         $taxiTrajet2->save();
 

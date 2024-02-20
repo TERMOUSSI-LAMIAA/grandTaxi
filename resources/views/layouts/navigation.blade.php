@@ -3,17 +3,29 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                @role('admin')
-                    <!-- Logo -->
-                    <div class="shrink-0 flex items-center">
+
+                <!-- Logo -->
+                <div class="shrink-0 flex items-center">
+                    @role('admin')
                         <a href="{{ route('dashboard_a') }}">
                             <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                         </a>
-                    </div>
+                    @endrole
+                    @role('driver')
+                        <a href="{{ route('dashboard_d') }}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        </a>
+                    @endrole
+                    @role('passenger')
+                        <a href="{{ route('dashboard_p') }}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        </a>
+                    @endrole
+                </div>
 
-                    <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-
+                <!-- Navigation Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    @role('admin')
                         <x-nav-link :href="route('dashboard_a')" :active="request()->routeIs('dashboard_a')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
@@ -28,8 +40,11 @@
                         </x-nav-link>
                     @endrole
                     @role('passenger')
-                        <x-nav-link :href="route('dashboard_d')" :active="request()->routeIs('dashboard_d')">
+                        <x-nav-link :href="route('dashboard_p')" :active="request()->routeIs('dashboard_p')">
                             {{ __('Dashboard') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('mesReservations')" :active="request()->routeIs('mesReservations')">
+                            {{ __('Mes reservations') }}
                         </x-nav-link>
                     @endrole
                 </div>

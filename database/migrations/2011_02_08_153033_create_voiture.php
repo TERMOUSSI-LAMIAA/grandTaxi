@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->unsignedInteger('total_seats')->default(6);
             $table->decimal('prix');
             $table->foreignId('user_id')->constrained('users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
