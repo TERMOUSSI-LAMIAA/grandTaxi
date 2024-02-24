@@ -1,6 +1,13 @@
 <x-app-layout>
     <x-slot name="slot">
         <h1>Gestion passagers</h1>
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         @forelse ($passengers as $p)
             <li>
                 id:{{ $p->id }}
@@ -8,7 +15,7 @@
                 email: {{ $p->email }},
                 photo: {{ $p->photo_profil }},
                 tel: {{ $p->tel }},
-                <form action="" method="post">
+                <form action="{{ route('deletePassenger', ['userId' => $p->id]) }}" method="post">
                     @csrf
                     @method('DELETE')
                     <x-danger-button type="submit">delete</x-danger-button>

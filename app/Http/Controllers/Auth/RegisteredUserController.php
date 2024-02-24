@@ -99,59 +99,16 @@ class RegisteredUserController extends Controller
         // $userRole->givePermissionTo($permission);
 
     
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
-
-        // ]);
-
-        // --------
-        // if ($request->role === 'driver') {
-        //  Create and associate taxi with user
-        // $taxi = Taxi::create([
-        //     'immatriculation' => $request->input('immatriculation'),
-        //     'type_vehicule' => $request->input('type_vehicule'),
-        //     'total_seats' => $request->input('total_seats'),
-        //     'user_id' => $user->id,
-        // ]);
-        // Associate taxi with user
-        // $user->taxi()->save($taxi);
-
-        // $user->update([
-        //     'description' => $request->description,
-        // 'type_paiement' => $request->paiement,
-        // 'immatriculation' => $request->immatriculation,
-        // 'type_vehicule' => $request->type_vehicule,
-        // 'total_seats' => $request->total_seats,
-        // ]);
-
-        // Handle photo upload
-        // if ($request->hasFile('photo')) {
-        //     $photoPath = $request->file('photo')->store('photos', 'public');
-        //     $user->update(['photo_profil' => $photoPath]);
-        // }
-        // }
-
-        // Additional fields for the passenger
-        // if ($request->role === 'passenger') {
-        //     $user->update([
-        //         'tel' => $request->tel,
-        //     ]);
-        //     if ($request->hasFile('photo')) {
-        //         $photoPath = $request->file('photo')->store('photos', 'public');
-        //         $user->update(['photo' => $photoPath]);
-        //     }
-        // }
-
+       
         event(new Registered($user));
 
         Auth::login($user);
 
-        // if($user->type == 'drvr')
+        //! if($user->type == 'drvr') or @role
+
         return redirect(route('dashboard_d'));
 
-        // return redirect(route('dashboard_p'));
+        //! return redirect(route('dashboard_p'));
 
     }
 }

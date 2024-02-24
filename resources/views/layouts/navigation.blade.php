@@ -29,7 +29,7 @@
                         <x-nav-link :href="route('dashboard_a')" :active="request()->routeIs('dashboard_a')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('gestReservations')" :active="request()->routeIs('gestReservations')">
+                        <x-nav-link :href="route('gestReservationsAdmin')" :active="request()->routeIs('gestReservationsAdmin')">
                             {{ __('Reservations') }}
                         </x-nav-link>
                         <x-nav-link :href="route('gestDriver')" :active="request()->routeIs('gestDriver')">

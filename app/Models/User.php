@@ -59,4 +59,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reservation::class, 'passenger_id');
     }
+    
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            $user->taxi->delete();
+        });
+    }
 }

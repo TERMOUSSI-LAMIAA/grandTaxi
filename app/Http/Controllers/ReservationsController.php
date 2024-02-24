@@ -35,7 +35,7 @@ class ReservationsController extends Controller
         ]);
         return redirect()->route('search')->with('success', 'Reservation added successfully!');
     }
-    public function getReservation()
+    static public function getReservation()
     {
         $currentDate = Carbon::now()->toDateString();
 
@@ -81,12 +81,12 @@ class ReservationsController extends Controller
     
         return view('passenger.reservations', compact('newReservations', 'oldReservations'));
     }
-    public function cancelReservation($id)
-    {
-        $reservation = Reservation::find($id);
-        $reservation->delete();
-        return redirect()->back()->with('success', 'Reservation canceled successfully.');
-    }
+    // public function cancelReservation($id)
+    // {
+    //     $reservation = Reservation::find($id);
+    //     $reservation->delete();
+    //     return redirect()->back()->with('success', 'Reservation canceled successfully.');
+    // }
     public function evaluate(Request $request, $reservationId)
     {
         $request->validate([
@@ -106,5 +106,12 @@ class ReservationsController extends Controller
         } else {
             return redirect()->route('mesReservations')->with('error', 'Reservation has already been evaluated');
         }
+    }
+    public function deleteReservation(Request $request, $reservationId)
+    {
+        $reservation = Reservation::findOrFail($reservationId);
+        $reservation->delete();
+
+        return redirect()->route('gestReservationsAdmin')->with('success', 'reservation deleted successfully.');
     }
 }
