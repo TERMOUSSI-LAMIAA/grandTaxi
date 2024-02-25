@@ -42,6 +42,9 @@
             <main>
                 {{ $slot }}
             </main>
+               {{-- <footer  class="bg-gray-800 text-white p-4 text-center ">
+                &copy; {{ date('Y') }} GrandTaxi. All rights reserved.
+            </footer> --}}
         </div>
     </body>
 </html>

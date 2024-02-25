@@ -24,7 +24,7 @@ class ReservationsController extends Controller
 
         $totalPrice = $taxiTrajet->taxi->prix * $request->number_of_seats;
         $input_number=$request->number_of_seats;
-      $input_date=$request->jour;
+        $input_date=$request->jour;
 
         $total_seats=$taxiTrajet->taxi->total_seats;
         $sum_seats=$taxiTrajet->reservations->where('jour', $input_date)->sum('number_of_seats');
