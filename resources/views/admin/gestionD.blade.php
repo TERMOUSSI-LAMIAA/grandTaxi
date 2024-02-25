@@ -9,7 +9,7 @@
                 photo: {{ $p->photo_profil }},
                 description: {{ $p->description }},
                 type_paiement: {{ $p->type_paiement }},
-                <form action="" method="post">
+                <form action="{{ route('deleteUser', ['userId' => $p->id]) }}" method="post">
                     @csrf
                     @method('DELETE')
                     <x-danger-button type="submit">delete</x-danger-button>

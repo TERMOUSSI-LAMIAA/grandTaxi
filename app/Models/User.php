@@ -59,13 +59,37 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reservation::class, 'passenger_id');
     }
-    
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!
     protected static function boot()
     {
         parent::boot();
-
         static::deleting(function ($user) {
-            $user->taxi->delete();
+            if ($user->type_user === 'driver') {
+
+                // if ($user->taxi) {           
+                //        // Delete associated reservations for all taxi_trajet records
+                // $user->taxi->taxiTrajets->each(function ($taxiTrajet) {
+                //     $taxiTrajet->reservations()->delete();
+                // });
+    
+                // $user->taxi->taxiTrajets->each(function ($taxiTrajet) {
+                //     $taxiTrajet->delete();
+                // });
+
+                // // Delete the taxi
+                // $user->taxi->delete();
+                // }
+            }
+            elseif($user->type_user === 'passenger'){
+                $user->reservations->each->delete();
+            }
         });
+
     }
 }
+// if( $user->taxi){
+//     $user->taxi->delete();
+// }
+// elseif($user->reservations){
+//     $user->reservations->each->delete();
+// }

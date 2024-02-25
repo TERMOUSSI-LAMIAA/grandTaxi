@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
+<x-app-layout>
+    <x-slot name="slot">
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
+    @endif
+    @if (session('error'))
+     <div class="bg-red-500 text-white px-4 py-2 rounded-md mb-4">
+         {{ session('error') }}
+     </div>
     @endif
     <h1>Search Results</h1>
 
@@ -28,8 +24,8 @@
                     Arrival City: {{ $result->trajet->destination->ville }},
                     Departure Time: {{ $result->hr_dep }},
                     User: {{ $result->taxi->user->name }}
-                    {{ $result->taxi->user->photo_profil }}
-                    <button onclick="toggleAdditionalInputs({{ $result->id }})">Reserve</button>
+                  <img src="{{asset('storage/'.$result->taxi->user->photo_profil)}}" alt="driver_profil" width="70"> 
+                    <x-secondary-button onclick="toggleAdditionalInputs({{ $result->id }})">Reserve</x-secondary-button>
 
                     <!-- Form with hidden additional inputs -->
                     <form id="reservationForm" action="{{ route('reserve', ['taxiTrajetId' => $result->id]) }}"
@@ -42,7 +38,7 @@
                             <label for="number_of_seats">Number of Seats:</label>
                             <input type="number" name="number_of_seats" min=1 max=8
                                 id="number_of_seats{{ $result->id }}" required>
-                            <button type="submit">Confirm</button>
+                            <x-secondary-button type="submit">Confirm</x-secondary-button>
                         </div>
 
                     </form>
@@ -63,7 +59,5 @@
 
 
 
-
-</body>
-
-</html>
+</x-slot>
+</x-app-layout>

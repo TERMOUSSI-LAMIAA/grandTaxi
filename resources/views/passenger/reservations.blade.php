@@ -2,10 +2,11 @@
     <x-slot name="slot">
         <h1>Mes reservations</h1>
         @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
+        <div class="bg-green-500 text-white px-4 py-2 rounded-md mb-4">
+            {{ session('success') }}
+        </div>
         @endif
+     
         <h3>les reservations recents</h3>
         <ul>
             @forelse ($newReservations as $nr)

@@ -23,4 +23,17 @@ class TaxiTrajet extends Model
     {
         return $this->hasMany(Reservation::class, 'taxi_trajet_id');
     }
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::deleting(function ($taxi_trajet) {
+    //         if( $taxi_trajet->reservations){
+    //             $taxi_trajet->reservations->each->delete();
+    //         }
+           
+          
+    //     });
+    // }
+
 }

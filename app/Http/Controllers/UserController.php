@@ -28,12 +28,10 @@ class UserController extends Controller
         return view('admin.gestionR', compact('newReservations', 'oldReservations'));
     }
     
-    public function deletePassenger(Request $request, $userId)
+    public function deleteUser(Request $request, $userId)
     {
         $user = User::findOrFail($userId);
         $user->delete();
-
-
-        return redirect()->route('admin.gestionP')->with('success', 'passenger deleted successfully.');
+        return redirect()->route('deleteUser')->with('success', 'passenger deleted successfully.');
     }
 }

@@ -15,7 +15,7 @@
                 email: {{ $p->email }},
                 photo: {{ $p->photo_profil }},
                 tel: {{ $p->tel }},
-                <form action="{{ route('deletePassenger', ['userId' => $p->id]) }}" method="post">
+                <form action="{{ route('deleteUser', ['userId' => $p->id]) }}" method="post">
                     @csrf
                     @method('DELETE')
                     <x-danger-button type="submit">delete</x-danger-button>

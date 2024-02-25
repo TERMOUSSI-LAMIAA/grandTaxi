@@ -54,11 +54,11 @@ Route::get('/search', [TaxiTrajetController::class, 'searchTaxiTrajet'])->name('
 Route::get('/reservations', [ReservationsController::class, 'getReservations'])->name('mesReservations');
 Route::post('/reserve/{taxiTrajetId}', [ReservationsController::class, 'reserve'])->name('reserve');
 Route::put('/evaluate/{reservationId}', [ReservationsController::class, 'evaluate'])->name('evaluate');
-// Route::delete('/cancel/{reservationId}', [ReservationsController::class, 'cancelReservation'])->name('cancelReservation');
+Route::delete('/cancel/{reservationId}', [ReservationsController::class, 'cancelReservation'])->name('cancelReservation');
 Route::get('/gestPassenger', [UserController::class, 'getPassengers'])->name('gestPassenger');
 Route::get('/gestDriver', [UserController::class, 'getDrivers'])->name('gestDriver');
 Route::get('/gestReservations', [UserController::class, 'get_reservations'])->name('gestReservationsAdmin');
-//!Route::delete('gestPassenger', [UserController::class, 'deletePassenger'])->name('deletePassenger');
+!Route::delete('/gestUser/{userId}', [UserController::class, 'deleteUser'])->name('deleteUser');
 Route::delete('/gestReservations.delet/{reservationId}', [ReservationsController::class, 'deleteReservation'])->name('deleteReservation');
 
 require __DIR__ . '/auth.php';
