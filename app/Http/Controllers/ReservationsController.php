@@ -78,7 +78,6 @@ class ReservationsController extends Controller
             ->where('passenger_id', $userId)
             ->distinct() // Ensure distinct reservation records
             ->get();
-
             return [
                 'newReservations' => $newReservations,
                 'oldReservations' => $oldReservations,
@@ -125,4 +124,18 @@ class ReservationsController extends Controller
 
         return redirect()->route('gestReservationsAdmin')->with('success', 'reservation deleted successfully.');
     }
+    //todo------------------------------------------------------
+    // public function getDriverReservation(){
+    //     $currentDate = Carbon::now()->toDateString();
+    //     $userId = Auth::id();
+    //  $newReservations = Reservation::with(['passenger', 'taxiTrajet.trajet', 'taxiTrajet.taxi'])
+    //         ->select('reservations.*')//*reservation id confused
+    //         ->join('taxi_trajet', 'reservations.taxi_trajet_id', '=', 'taxi_trajet.id')
+    //         ->join('trajets', 'taxi_trajet.trajet_id', '=', 'trajets.id')
+    //         ->where('reservations.jour', '>=', $currentDate)
+    //         ->whereRaw("TIMESTAMP(CONCAT(reservations.jour, ' ', taxi_trajet.hr_dep)) + INTERVAL TIME_TO_SEC(trajets.duree) SECOND >= NOW()")
+    //         ->where('passenger_id', $userId)
+    //         ->distinct() //* distinct->reservation id confused
+    //         ->get();
+    // }
 }

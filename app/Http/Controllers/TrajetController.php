@@ -18,7 +18,7 @@ class TrajetController extends Controller
         return view('driver.dashboard_d', compact('trajets'));
     }
     public function addUserTrajets(Request $request)
-    {//!check if driver has already two taxi_trajet then update them
+    {
         $userId = Auth::id();
         $trajets = Trajet::all();
 
@@ -33,11 +33,33 @@ class TrajetController extends Controller
         $reversedTrajet->destination_id = $selectedTrajet->depart_id;
         $reversedTrajet->duree = $selectedTrajet->duree;
 
+        $taxi = Taxi::where('user_id', $userId)->first();
+        // Check if the driver already has taxi_trajet records
+        $existingTaxiTrajets = TaxiTrajet::where('taxi_id', $taxi->id)->get();
+       
+        $hasReservations = false;
+
+        foreach ($existingTaxiTrajets as $existingTaxiTrajet) {
+            if ($existingTaxiTrajet->reservations()->exists()) {
+                $hasReservations = true;
+                break; 
+            }
+        }
+
+        if ($hasReservations) {
+            return redirect()->back()->with('error', 'Cannot change your routes with reservations.');
+        }
+
+        foreach ($existingTaxiTrajets as $existingTaxiTrajet) {
+            $existingTaxiTrajet->delete();
+        }
+
         $existingReversedTrajet = Trajet::where('depart_id', $reversedTrajet->depart_id)
             ->where('destination_id', $reversedTrajet->destination_id)
             ->first();
-        //  dd taxi price
-        $taxi = Taxi::where('user_id', $userId)->first();
+        
+        //  add taxi price
+       
         if ($taxi) {
             $taxi->prix = $price;
             $taxi->save();
@@ -67,7 +89,8 @@ class TrajetController extends Controller
         $taxiTrajet2->hr_dep =$newHrDep;
         $taxiTrajet2->save();
 
-        return view('driver.dashboard_d', compact('selectedTrajet', 'reversedTrajet', 'trajets'));
+        return view('driver.dashboard_d', compact('selectedTrajet', 'reversedTrajet', 'trajets'))
+        ->with('success', 'Trajets added successfully!');
 
     }
 

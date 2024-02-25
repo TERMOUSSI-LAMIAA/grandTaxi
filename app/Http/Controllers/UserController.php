@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-// use App\Http\Controllers\ReservationsController;
-
+use App\Models\Reservation;
+// 
 class UserController extends Controller
 {
     public function getPassengers()
@@ -20,12 +20,13 @@ class UserController extends Controller
         return view("admin.gestionD",compact("drivers"));
     }
     public function get_reservations(){
-        $reservationsData =ReservationsController::getReservation();
+        // $reservationsData =ReservationsController::getReservation();
+  
+        // $newReservations = $reservationsData['newReservations'];
+        // $oldReservations = $reservationsData['oldReservations'];
+        $reserv=Reservation::all();
 
-        $newReservations = $reservationsData['newReservations'];
-        $oldReservations = $reservationsData['oldReservations'];
-    
-        return view('admin.gestionR', compact('newReservations', 'oldReservations'));
+        return view('admin.gestionR', compact('reserv'));
     }
     
     public function deleteUser(Request $request, $userId)

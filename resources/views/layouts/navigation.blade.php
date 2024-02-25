@@ -47,6 +47,11 @@
                             {{ __('Mes reservations') }}
                         </x-nav-link>
                     @endrole
+                    @role('driver')
+                    <x-nav-link :href="route('dashboard_d')" :active="request()->routeIs('dashboard_d')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                    @endrole
                 </div>
             </div>
 

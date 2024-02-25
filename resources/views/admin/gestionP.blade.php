@@ -1,28 +1,37 @@
 <x-app-layout>
     <x-slot name="slot">
-        <h1>Gestion passagers</h1>
+        <div class="container mx-auto mt-8 p-4">
+            <h1 class="text-3xl font-bold mb-4">Gestion passagers</h1>
 
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+            @if (session('success'))
+                <div class="bg-green-500 text-white px-4 py-2 rounded-md mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-        @forelse ($passengers as $p)
-            <li>
-                id:{{ $p->id }}
-                name: {{ $p->name }},
-                email: {{ $p->email }},
-                photo: {{ $p->photo_profil }},
-                tel: {{ $p->tel }},
-                <form action="{{ route('deleteUser', ['userId' => $p->id]) }}" method="post">
-                    @csrf
-                    @method('DELETE')
-                    <x-danger-button type="submit">delete</x-danger-button>
-                </form>
-            </li>
-        @empty
-            <p>No passengers found.</p>
-        @endforelse
+            <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                @forelse ($passengers as $p)
+                    <li class="bg-white p-6 rounded-md shadow-md">
+                        <div class="mb-2">
+                            <strong>ID:</strong> {{ $p->id }}<br>
+                            <strong>Name:</strong> {{ $p->name }}<br>
+                            <strong>Email:</strong> {{ $p->email }}<br>
+                            <strong>Tel:</strong> {{ $p->tel }}
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <img src="{{ asset('storage/'.$p->photo_profil) }}" alt="passenger photo" class="w-16 h-16 object-cover rounded-full mr-2">
+                            <span class="text-gray-600">{{ $p->name }}</span>
+                        </div>
+                        <form action="{{ route('deleteUser', ['userId' => $p->id]) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                        </form>
+                    </li>
+                @empty
+                    <p class="text-gray-500">No passengers found.</p>
+                @endforelse
+            </ul>
+        </div>
     </x-slot>
 </x-app-layout>
