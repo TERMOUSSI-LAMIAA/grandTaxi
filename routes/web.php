@@ -45,7 +45,7 @@ Route::get('/dashboard_p', [VilleController::class, 'get_villes'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard_p');
 
-Route::get('/dashboard_a', [VilleController::class, 'testadmin'])
+Route::get('/dashboard_a', [UserController::class, 'calculUsers'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard_a');
 

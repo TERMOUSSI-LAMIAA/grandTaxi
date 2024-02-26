@@ -93,6 +93,6 @@ class TrajetController extends Controller
         ->with('success', 'Trajets added successfully!');
 
     }
-
+    
 
 }
