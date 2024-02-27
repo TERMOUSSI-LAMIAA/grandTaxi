@@ -16,7 +16,7 @@
             <h1 class="text-3xl font-semibold mb-6">My Reservations</h1>
 
             <div class="mb-8">
-                <h3 class="text-xl font-semibold mb-4">Recent reservations </h3>
+                <h3 class="text-xl font-semibold mb-4">Recent reservations</h3>
                 <ul class="space-y-4">
                     @forelse ($newReservations as $nr)
                         <li class="bg-white shadow-md p-6 rounded-md">

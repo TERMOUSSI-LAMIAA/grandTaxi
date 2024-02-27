@@ -34,14 +34,36 @@ class UserController extends Controller
     public function deleteUser(Request $request, $userId)
     {
         $user = User::findOrFail($userId);
+        foreach ($user->taxi->taxiTrajets as $taxiTrajet) {
+            $taxiTrajet->reservations()->delete();
+            $taxiTrajet->delete();
+        }
+        $user->taxi()->delete();
         $user->delete();
-        return redirect()->route('deleteUser')->with('success', 'passenger deleted successfully.');
+        return redirect()->back()->with('success', 'Driver deleted successfully.');
     }
     public function calculUsers(){
         $passengerCount = User::where('type_user', 'passenger')->where('is_admin',0)->count();  
         $driverCount = User::where('type_user', 'driver')->count();  
-        
        
-        return view('admin.dashboard_a',compact("passengerCount","driverCount"));
+        $maxAverageRates = DB::table('reservations')
+        ->join('taxi_trajet', 'reservations.taxi_trajet_id', '=', 'taxi_trajet.id')
+        ->join('taxis', 'taxi_trajet.taxi_id', '=', 'taxis.id')
+        ->join('users', 'taxis.user_id', '=', 'users.id')
+        ->select('users.id', 'users.name', DB::raw('AVG(reservations.rating) as average_rate'))
+        ->groupBy('users.id', 'users.name')
+        ->orderByDesc('average_rate')
+        ->first();
+   
+        $minAverageRateUser = DB::table('reservations')
+        ->join('taxi_trajet', 'reservations.taxi_trajet_id', '=', 'taxi_trajet.id')
+        ->join('taxis', 'taxi_trajet.taxi_id', '=', 'taxis.id')
+        ->join('users', 'taxis.user_id', '=', 'users.id')
+        ->select('users.id', 'users.name', DB::raw('AVG(reservations.rating) as average_rate'))
+        ->groupBy('users.id', 'users.name')
+        ->orderBy('average_rate')
+        ->first();
+       
+        return view('admin.dashboard_a',compact("passengerCount","driverCount","maxAverageRates","minAverageRateUser"));
     }
 }

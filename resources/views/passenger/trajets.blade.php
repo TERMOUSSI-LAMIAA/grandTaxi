@@ -2,6 +2,7 @@
     <x-slot name="slot">
         <div class="flex items-center justify-center h-full flex-col mt-10">
             @if (session('success'))
+            
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
@@ -14,6 +15,11 @@
             @endif
 
             <h1 class="text-3xl font-semibold mb-6">Search Results</h1>
+    {{-- <div class="flex space-x-4 mb-4">
+        <a href="{{ route('search', ['vil_dep' => $departCity, 'vil_arv' => $arriveeCity,'order' => 'price'])  }}">Sort by Price</a>
+        <a href="{{ route('search', ['vil_dep' => $departCity, 'vil_arv' => $arriveeCity,'order' => 'time']) }}">Sort by Time</a>
+    </div> --}}
+
 
             @if ($results->isEmpty())
                 <p class="text-gray-600">No results found for the selected cities.</p>

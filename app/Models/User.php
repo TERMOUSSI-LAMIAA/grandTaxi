@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -60,12 +62,20 @@ class User extends Authenticatable
         return $this->hasMany(Reservation::class, 'passenger_id');
     }
     //!!!!!!!!!!!!!!!!!!!!!!!!!!
-    protected static function boot()
-    {
-        parent::boot();
-        static::deleting(function ($user) {
-            if ($user->type_user === 'driver') {
+    // protected static function boot()
+    // {
+    //     parent::boot();
+    //     static::deleting(function ($user) {
+    //         if ($user->type_user === 'driver') {
+    //             $user->taxi->taxiTrajets()->get()->each(function ($taxi_trajet) {
+    //             // Soft delete related reservations records
+    //             // $taxi_trajet->reservations()->delete();
 
+    //             // Soft delete the taxi_trajet record
+    //             $taxi_trajet->delete();
+    //         });
+    //             $user->taxi()->delete();
+    //             $user->delete();
                 // if ($user->taxi) {           
                 //        // Delete associated reservations for all taxi_trajet records
                 // $user->taxi->taxiTrajets->each(function ($taxiTrajet) {
@@ -79,13 +89,13 @@ class User extends Authenticatable
                 // // Delete the taxi
                 // $user->taxi->delete();
                 // }
-            }
-            elseif($user->type_user === 'passenger'){
-                $user->reservations->each->delete();
-            }
-        });
+            // }
+            // elseif($user->type_user === 'passenger'){
+            //     $user->reservations->each->delete();
+            // }
+        // });
 
-    }
+    // }
 }
 // if( $user->taxi){
 //     $user->taxi->delete();

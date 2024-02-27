@@ -50,15 +50,16 @@ Route::get('/dashboard_a', [UserController::class, 'calculUsers'])
     ->name('dashboard_a');
 
 Route::post('dashboard_d', [TrajetController::class, 'addUserTrajets'])->name('addUserTrajets');
-Route::get('/search', [TaxiTrajetController::class, 'searchTaxiTrajet'])->name('search');
 Route::get('/reservations', [ReservationsController::class, 'getReservations'])->name('mesReservations');
+Route::get('/search', [TaxiTrajetController::class, 'searchTaxiTrajet'])->name('search');
+Route::get('/orderbyprice', [TaxiTrajetController::class, 'orderByPrice'])->name('order_by_price');
 Route::post('/reserve/{taxiTrajetId}', [ReservationsController::class, 'reserve'])->name('reserve');
 Route::put('/evaluate/{reservationId}', [ReservationsController::class, 'evaluate'])->name('evaluate');
 Route::delete('/cancel/{reservationId}', [ReservationsController::class, 'cancelReservation'])->name('cancelReservation');
 Route::get('/gestPassenger', [UserController::class, 'getPassengers'])->name('gestPassenger');
 Route::get('/gestDriver', [UserController::class, 'getDrivers'])->name('gestDriver');
 Route::get('/gestReservations', [UserController::class, 'get_reservations'])->name('gestReservationsAdmin');
-!Route::delete('/gestUser/{userId}', [UserController::class, 'deleteUser'])->name('deleteUser');
+Route::delete('/gestUser/{userId}', [UserController::class, 'deleteUser'])->name('deleteUser');
 Route::delete('/gestReservations.delet/{reservationId}', [ReservationsController::class, 'deleteReservation'])->name('deleteReservation');
 
 require __DIR__ . '/auth.php';

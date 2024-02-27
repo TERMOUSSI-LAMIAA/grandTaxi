@@ -2,6 +2,11 @@
     <x-slot name="slot">
         <div class="container mx-auto mt-8 p-4">
             <h1 class="text-3xl font-bold mb-4">Gestion drivers</h1>
+            @if (session('success'))
+                <div class="bg-green-500 text-white px-4 py-2 rounded-md mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
             <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @forelse ($drivers as $p)
                     <li class="bg-white p-6 rounded-md shadow-md">

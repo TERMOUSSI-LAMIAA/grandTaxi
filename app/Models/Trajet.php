@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Trajet extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
+    //!added this
+    protected $table = 'trajets';
     protected $fillable = ['depart_id', 'destination_id', 'duree'];
     public function taxis()
     {

@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class TaxiTrajet extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $table = 'taxi_trajet'; 
     public function taxi()
     {
