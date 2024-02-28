@@ -15,11 +15,18 @@
             @endif
 
             <h1 class="text-3xl font-semibold mb-6">Search Results</h1>
-    {{-- <div class="flex space-x-4 mb-4">
-        <a href="{{ route('search', ['vil_dep' => $departCity, 'vil_arv' => $arriveeCity,'order' => 'price'])  }}">Sort by Price</a>
-        <a href="{{ route('search', ['vil_dep' => $departCity, 'vil_arv' => $arriveeCity,'order' => 'time']) }}">Sort by Time</a>
-    </div> --}}
 
+        <form action="{{ route('search') }}" method="GET" class="my-4">
+            <input type="text"  name="vil_dep" value="{{$departCity}}" hidden>
+            <input type="text" name="vil_arv" value="{{$arriveeCity}}" hidden>
+            {{-- <input type="checkbox" id="price" name="price" onchange="this.form.submit()"><label for="price">Sort by Price</label>
+            <input type="checkbox" id="time" name="time" onchange="this.form.submit()"><label for="time">Sort by time</label> --}}
+<div class="space-x-4">
+    <input type="checkbox" id="price" name="price" onchange="this.form.submit()" class="form-checkbox h-5 w-5  text-blue-600"><label for="price" class="text-gray-700">Sort by Price</label>
+    <input type="checkbox" id="time" name="time" onchange="this.form.submit()" class="form-checkbox h-5 w-5 text-blue-600"><label for="time" class="text-gray-700">Sort by Time</label>
+</div>
+
+        </form>
 
             @if ($results->isEmpty())
                 <p class="text-gray-600">No results found for the selected cities.</p>

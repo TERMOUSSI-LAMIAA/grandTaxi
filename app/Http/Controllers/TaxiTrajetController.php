@@ -13,22 +13,22 @@ class TaxiTrajetController extends Controller
         $departCity = $request->input('vil_dep');
         $arriveeCity = $request->input('vil_arv');
 
-        $order = $request->input('order');
+        // $order = $request->input('order');
 
         $results = TaxiTrajet::whereHas('trajet', function ($query) use ($departCity, $arriveeCity) {
             $query->where('depart_id', $departCity)
                 ->where('destination_id', $arriveeCity);
         });
-         if ($order === 'price') {
+         if ($request->input('price')) {
         $results = $results
             ->join('taxis', 'taxis.id', '=', 'taxi_trajet.taxi_id')
             ->orderBy('taxis.prix', 'asc');
-        } elseif ($order === 'time') {
+        } elseif ($request->input('time')) {
             $results = $results->orderBy('taxi_trajet.hr_dep', 'asc');
         }
 
         $results = $results->get();
     
-        return view('passenger.trajets', compact('results'));
+        return view('passenger.trajets', compact('results','departCity','arriveeCity'));
     }
 }
