@@ -34,13 +34,22 @@ class UserController extends Controller
     public function deleteUser(Request $request, $userId)
     {
         $user = User::findOrFail($userId);
-        foreach ($user->taxi->taxiTrajets as $taxiTrajet) {
+ 
+        if ($user->type_user==="driver"){
+            foreach ($user->taxi->taxiTrajets as $taxiTrajet) {
             $taxiTrajet->reservations()->delete();
             $taxiTrajet->delete();
+            }
+            $user->taxi()->delete();
+            $user->delete();
+            return redirect()->back()->with('success', 'Driver deleted successfully.');
         }
-        $user->taxi()->delete();
-        $user->delete();
-        return redirect()->back()->with('success', 'Driver deleted successfully.');
+        elseif ($user->type_user==="passenger"){
+            $user->reservations()->delete();
+            $user->delete();
+            return redirect()->back()->with('success', 'Passenger deleted successfully.');
+        }
+       
     }
     public function calculUsers(){
         $passengerCount = User::where('type_user', 'passenger')->where('is_admin',0)->count();  
